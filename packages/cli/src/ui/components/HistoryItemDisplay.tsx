@@ -57,10 +57,10 @@ export const HistoryItemDisplay: React.FC<HistoryItemDisplayProps> = ({
   const itemForDisplay = useMemo(() => escapeAnsiCtrlCodes(item), [item]);
 
   return (
-    <Box flexDirection="column" key={itemForDisplay.id}>
+    <Box flexDirection="column" key={itemForDisplay.id} width={terminalWidth}>
       {/* Render standard message types */}
       {itemForDisplay.type === 'user' && (
-        <UserMessage text={itemForDisplay.text} />
+        <UserMessage text={itemForDisplay.text} width={terminalWidth} />
       )}
       {itemForDisplay.type === 'user_shell' && (
         <UserShellMessage text={itemForDisplay.text} />
@@ -78,7 +78,6 @@ export const HistoryItemDisplay: React.FC<HistoryItemDisplayProps> = ({
       {itemForDisplay.type === 'gemini_content' && (
         <GeminiMessageContent
           text={itemForDisplay.text}
-          isPending={isPending}
           availableTerminalHeight={
             availableTerminalHeightGemini ?? availableTerminalHeight
           }

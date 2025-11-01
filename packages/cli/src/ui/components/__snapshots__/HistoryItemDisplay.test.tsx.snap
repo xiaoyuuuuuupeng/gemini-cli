@@ -116,29 +116,27 @@ exports[`<HistoryItemDisplay /> > should render a full gemini_content item when 
 `;
 
 exports[`<HistoryItemDisplay /> > should render a truncated gemini item 1`] = `
-"✦ Example code block:
-   ... first 41 lines hidden ...
-   42 Line 42
-   43 Line 43
-   44 Line 44
-   45 Line 45
-   46 Line 46
-   47 Line 47
-   48 Line 48
-   49 Line 49
-   50 Line 50"
+"✦  ... first 41 lines hidden ...
+   42 Line 42                                                                  █
+   43 Line 43                                                                  █
+   44 Line 44                                                                  █
+   45 Line 45                                                                  █
+   46 Line 46                                                                  █
+   47 Line 47                                                                  █
+   48 Line 48                                                                  █
+   49 Line 49                                                                  █
+   50 Line 50                                                                  █"
 `;
 
 exports[`<HistoryItemDisplay /> > should render a truncated gemini_content item 1`] = `
-"  Example code block:
-   ... first 41 lines hidden ...
-   42 Line 42
-   43 Line 43
-   44 Line 44
-   45 Line 45
-   46 Line 46
-   47 Line 47
-   48 Line 48
-   49 Line 49
-   50 Line 50"
+"   ... first 41 lines hidden ...
+   42 Line 42                                                                  █
+   43 Line 43                                                                  █
+   44 Line 44                                                                  █
+   45 Line 45                                                                  █
+   46 Line 46                                                                  █
+   47 Line 47                                                                  █
+   48 Line 48                                                                  █
+   49 Line 49                                                                  █
+   50 Line 50                                                                  █"
 `;

@@ -197,4 +197,94 @@ describe('ScrollableList Demo Behavior', () => {
     expect(lastFrame!()).not.toContain('Item 1003');
     expect(lastFrame!()).toContain('Count: 1003');
   });
+
+  it('should display sticky header when scrolled past the item', async () => {
+    let listRef: ScrollableListRef<Item> | null = null;
+    const StickyTestComponent = () => {
+      const items = Array.from({ length: 100 }, (_, i) => ({
+        id: String(i),
+        title: `Item ${i + 1}`,
+      }));
+
+      const ref = useRef<ScrollableListRef<Item>>(null);
+      useEffect(() => {
+        listRef = ref.current;
+      }, []);
+
+      return (
+        <MouseProvider mouseEventsEnabled={false}>
+          <KeypressProvider kittyProtocolEnabled={false}>
+            <ScrollProvider>
+              <Box flexDirection="column" width={80} height={10}>
+                <ScrollableList
+                  ref={ref}
+                  data={items}
+                  renderItem={({ item, index }) => (
+                    <Box flexDirection="column" height={3}>
+                      {index === 0 ? (
+                        <Box
+                          sticky
+                          stickyChildren={<Text>[STICKY] {item.title}</Text>}
+                        >
+                          <Text>[Normal] {item.title}</Text>
+                        </Box>
+                      ) : (
+                        <Text>[Normal] {item.title}</Text>
+                      )}
+                      <Text>Content for {item.title}</Text>
+                      <Text>More content for {item.title}</Text>
+                    </Box>
+                  )}
+                  estimatedItemHeight={() => 3}
+                  keyExtractor={(item) => item.id}
+                  hasFocus={true}
+                />
+              </Box>
+            </ScrollProvider>
+          </KeypressProvider>
+        </MouseProvider>
+      );
+    };
+
+    let lastFrame: () => string | undefined;
+    await act(async () => {
+      const result = render(<StickyTestComponent />);
+      lastFrame = result.lastFrame;
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    // Initially at top, should see Normal Item 1
+    expect(lastFrame!()).toContain('[Normal] Item 1');
+    expect(lastFrame!()).not.toContain('[STICKY] Item 1');
+
+    // Scroll down slightly. Item 1 (height 3) is now partially off-screen (-2), so it should stick.
+    await act(async () => {
+      listRef?.scrollBy(2);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    // Now Item 1 should be stuck
+    expect(lastFrame!()).not.toContain('[Normal] Item 1');
+    expect(lastFrame!()).toContain('[STICKY] Item 1');
+
+    // Scroll further down to unmount Item 1.
+    // Viewport height 10, item height 3. Scroll to 10.
+    // startIndex should be around 2, so Item 1 (index 0) is unmounted.
+    await act(async () => {
+      listRef?.scrollTo(10);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    expect(lastFrame!()).not.toContain('[STICKY] Item 1');
+
+    // Scroll back to top
+    await act(async () => {
+      listRef?.scrollTo(0);
+      await new Promise((resolve) => setTimeout(resolve, 50));
+    });
+
+    // Should be normal again
+    expect(lastFrame!()).toContain('[Normal] Item 1');
+    expect(lastFrame!()).not.toContain('[STICKY] Item 1');
+  });
 });

@@ -243,17 +243,21 @@ export function ThemeDialog({
                   paddingRight={1}
                   flexDirection="column"
                 >
-                  {colorizeCode(
-                    `# function
+                  {colorizeCode({
+                    code: `# function
 def fibonacci(n):
     a, b = 0, 1
     for _ in range(n):
         a, b = b, a + b
     return a`,
-                    'python',
-                    codeBlockHeight,
-                    colorizeCodeWidth,
-                  )}
+                    language: 'python',
+                    availableHeight:
+                      settings.merged.ui?.useAlternateBuffer === false
+                        ? codeBlockHeight
+                        : undefined,
+                    maxWidth: colorizeCodeWidth,
+                    settings,
+                  })}
                   <Box marginTop={1} />
                   <DiffRenderer
                     diffContent={`--- a/util.py
@@ -262,7 +266,11 @@ def fibonacci(n):
 - print("Hello, " + name)
 + print(f"Hello, {name}!")
 `}
-                    availableTerminalHeight={diffHeight}
+                    availableTerminalHeight={
+                      settings.merged.ui?.useAlternateBuffer === false
+                        ? diffHeight
+                        : undefined
+                    }
                     terminalWidth={colorizeCodeWidth}
                     theme={previewTheme}
                   />

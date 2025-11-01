@@ -184,7 +184,12 @@ export const MaxSizedBox: React.FC<MaxSizedBoxProps> = ({
   ));
 
   return (
-    <Box flexDirection="column" width={maxWidth} flexShrink={0}>
+    <Box
+      flexDirection="column"
+      width={maxWidth}
+      flexShrink={0}
+      backgroundColor="red"
+    >
       {totalHiddenLines > 0 && overflowDirection === 'top' && (
         <Text color={theme.text.secondary} wrap="truncate">
           ... first {totalHiddenLines} line{totalHiddenLines === 1 ? '' : 's'}{' '}

@@ -10,13 +10,20 @@ import { StreamingContext } from './contexts/StreamingContext.js';
 import { QuittingDisplay } from './components/QuittingDisplay.js';
 import { ScreenReaderAppLayout } from './layouts/ScreenReaderAppLayout.js';
 import { DefaultAppLayout } from './layouts/DefaultAppLayout.js';
+import { useSettings } from './contexts/SettingsContext.js';
+import { AlternateBufferQuittingDisplay } from './components/AlternateBufferQuittingDisplay.js';
 
 export const App = () => {
   const uiState = useUIState();
+  const settings = useSettings();
   const isScreenReaderEnabled = useIsScreenReaderEnabled();
 
   if (uiState.quittingMessages) {
-    return <QuittingDisplay />;
+    if (settings.merged.ui?.useAlternateBuffer) {
+      return <AlternateBufferQuittingDisplay />;
+    } else {
+      return <QuittingDisplay />;
+    }
   }
 
   return (
