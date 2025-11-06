@@ -168,7 +168,7 @@ describe('Core System Prompt (prompts.ts)', () => {
         `your **first and primary tool** must be '${CodebaseInvestigatorAgent.name}'`,
       );
       expect(prompt).toContain(
-        "Use 'search_file_content' and 'glob' search tools extensively",
+        "Use 'grep' and 'glob' search tools extensively",
       );
     });
   });
