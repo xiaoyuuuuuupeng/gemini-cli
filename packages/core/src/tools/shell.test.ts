@@ -333,10 +333,11 @@ describe('ShellTool', () => {
       const result = await promise;
 
       expect(summarizer.summarizeToolOutput).toHaveBeenCalledWith(
+        mockConfig,
+        { model: 'summarizer-shell' },
         expect.any(String),
         mockConfig.getGeminiClient(),
         mockAbortSignal,
-        1000,
       );
       expect(result.llmContent).toBe('summarized output');
       expect(result.returnDisplay).toBe('long output');

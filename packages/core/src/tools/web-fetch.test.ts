@@ -142,6 +142,12 @@ describe('WebFetchTool', () => {
       setApprovalMode: vi.fn(),
       getProxy: vi.fn(),
       getGeminiClient: mockGetGeminiClient,
+      modelConfigService: {
+        getResolvedConfig: vi.fn().mockImplementation(({ model }) => ({
+          model,
+          generateContentConfig: {},
+        })),
+      },
     } as unknown as Config;
   });
 
@@ -269,7 +275,7 @@ describe('WebFetchTool', () => {
       } as Response);
 
       // Mock fallback LLM call to return the content passed to it
-      mockGenerateContent.mockImplementationOnce(async (req) => ({
+      mockGenerateContent.mockImplementationOnce(async (_, req) => ({
         candidates: [{ content: { parts: [{ text: req[0].parts[0].text }] } }],
       }));
 
@@ -297,7 +303,7 @@ describe('WebFetchTool', () => {
       } as Response);
 
       // Mock fallback LLM call to return the content passed to it
-      mockGenerateContent.mockImplementationOnce(async (req) => ({
+      mockGenerateContent.mockImplementationOnce(async (_, req) => ({
         candidates: [{ content: { parts: [{ text: req[0].parts[0].text }] } }],
       }));
 
@@ -319,7 +325,7 @@ describe('WebFetchTool', () => {
       } as Response);
 
       // Mock fallback LLM call to return the content passed to it
-      mockGenerateContent.mockImplementationOnce(async (req) => ({
+      mockGenerateContent.mockImplementationOnce(async (_, req) => ({
         candidates: [{ content: { parts: [{ text: req[0].parts[0].text }] } }],
       }));
 
@@ -341,7 +347,7 @@ describe('WebFetchTool', () => {
       } as Response);
 
       // Mock fallback LLM call to return the content passed to it
-      mockGenerateContent.mockImplementationOnce(async (req) => ({
+      mockGenerateContent.mockImplementationOnce(async (_, req) => ({
         candidates: [{ content: { parts: [{ text: req[0].parts[0].text }] } }],
       }));
 
